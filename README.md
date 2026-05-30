@@ -1,8 +1,8 @@
-# SeniorSaathi — AI Civic & Daily Life Assistant for Elderly Citizens
+# Senior-Saathi — AI Civic & Daily Life Assistant for Elderly Citizens
 
 ## Overview
 
-**SeniorSaathi** is an AI-powered multilingual assistant designed for **elderly, illiterate, and digitally excluded citizens**.
+**Senior-Saathi** is an AI-powered multilingual assistant designed for **elderly, illiterate, and digitally excluded citizens**.
 
 The platform aims to simplify access to:
 
@@ -18,7 +18,7 @@ This project is built as a modular platform intended to evolve from a working MV
 
 ---
 
-## Problem Statement
+## Problem Statement:-
 
 Many elderly citizens face challenges with:
 
@@ -37,14 +37,14 @@ SeniorSaathi addresses these challenges through a simple and accessible interfac
 
 ### Document Reader (OCR)
 
-Upload an image of:
+Upload an image of:-
 
 * Government notices
 * Bills
 * Medical prescriptions
 * Printed documents
 
-The system:
+The system:-
 
 * Detects text from images
 * Extracts readable content
@@ -56,7 +56,7 @@ The system:
 
 Translate extracted content into multiple languages.
 
-Current support:
+Current support:-
 
 * English
 * Telugu
