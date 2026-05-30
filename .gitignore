@@ -1,13 +1,40 @@
-# Python
-__pycache__/
-*.pyc
-
-# Virtual Environments
+# Virtual Environment
 .venv/
 venv/
 
-# Environment Variables
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables
 .env
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Build files
+build/
+dist/
+*.egg-info/
 
 # Logs
 *.log
+
+# Testing
+.coverage
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.swp
+
+# Future uploads
+uploads/
+
+# Future databases
+*.db
+*.sqlite3
