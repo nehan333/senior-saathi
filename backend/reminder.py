@@ -8,7 +8,7 @@ def add_reminder(medicine, time):
 
     reminders.append(reminder)
 
-    return {
+    return {}
         "message": "Reminder added successfully",
         "reminder": reminder
     }
