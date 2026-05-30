@@ -1,21 +1,31 @@
 from fastapi import FastAPI
-from gov import get_schemes, search_scheme
+from pydantic import BaseModel
+
+from reminder import add_reminder, get_reminders
 
 app = FastAPI()
 
+
+class Reminder(BaseModel):
+    medicine: str
+    time: str
+
+
 @app.get("/")
 def home():
-
-    return {"message": "Government Assistant Running"}
-
-
-@app.get("/schemes")
-def schemes():
-
-    return get_schemes()
+    return {
+        "message": "SeniorSaathi API Running"
+    }
 
 
-@app.get("/search")
-def search(q: str):
+@app.post("/reminder")
+def create_reminder(reminder: Reminder):
+    return add_reminder(
+        reminder.medicine,
+        reminder.time
+    )
 
-    return search_scheme(q)
+
+@app.get("/reminders")
+def view_reminders():
+    return get_reminders()
