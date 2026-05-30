@@ -1,0 +1,25 @@
+[
+    {
+        "name":"Old Age Pension",
+        "eligibility":"60+ years",
+        "benefit":"Monthly financial support"
+    },
+
+    {
+        "name":"Ayushman Bharat",
+        "eligibility":"Eligible families",
+        "benefit":"Healthcare coverage"
+    },
+
+    {
+        "name":"PM Kisan",
+        "eligibility":"Farmers",
+        "benefit":"Income support"
+    },
+
+    {
+        "name":"Senior Citizen Savings Scheme",
+        "eligibility":"Senior Citizens",
+        "benefit":"Savings benefits"
+    }
+]
