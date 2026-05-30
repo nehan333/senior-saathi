@@ -1,10 +1,20 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from backend.gov import get_schemes
+from backend.reminder import add_reminder, get_reminders
+from fastapi.middleware.cors import CORSMiddleware
+from ai.ocr.ocr import extract_text
 
-from reminder import add_reminder, get_reminders
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Reminder(BaseModel):
     medicine: str
@@ -29,3 +39,12 @@ def create_reminder(reminder: Reminder):
 @app.get("/reminders")
 def view_reminders():
     return get_reminders()
+
+@app.get("/schemes")
+def schemes():
+    return get_schemes()
+
+@app.get("/ocr")
+def ocr():
+    text = extract_text("ai/ocr/sample.jpg")
+    return {"text": text}

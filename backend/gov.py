@@ -2,7 +2,7 @@ import json
 
 def get_schemes():
 
-    with open("schemes.json") as f:
+    with open("backend/schemes.json") as f:
 
         schemes = json.load(f)
 
@@ -11,7 +11,7 @@ def get_schemes():
 
 def search_scheme(q):
 
-    with open("schemes.json") as f:
+    with open("backend/schemes.json") as f:
 
         schemes = json.load(f)
 
