@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+easyocr
+googletrans==4.0.0rc1
+gtts
+python-multipart
+pillow
+numpy
+torch
+torchvision
+opencv-python
