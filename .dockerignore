@@ -1,0 +1,7 @@
+.venv
+pycache
+.git
+.gitignore
+*.pyc
+uploads
+output.mp3

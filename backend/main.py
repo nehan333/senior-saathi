@@ -110,7 +110,7 @@ def view_reminders():
 def schemes():
     return get_schemes()
 
-@app.post("/ocr")
+'''app.post("/ocr")
 async def ocr(file: UploadFile = File(...)):
 
     file_path = f"uploads/{file.filename}"
@@ -120,7 +120,7 @@ async def ocr(file: UploadFile = File(...)):
 
     text = extract_text(file_path)
 
-    return {"text": text}
+    return {"text": text}'''
 
 @app.post("/contacts")
 def create_contact(contact: Contact):
