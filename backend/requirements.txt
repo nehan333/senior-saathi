@@ -10,3 +10,6 @@ numpy
 torch
 torchvision
 opencv-python
+fastapi
+uvicorn
+mysql-connector-python
