@@ -15,14 +15,22 @@ try:
     from reminder import add_reminder, get_reminders
     from family import (
         add_family_reminder,
+        add_family_member,
+        add_user,
+        get_family_members,
         get_family_reminders,
+        get_users,
         mark_reminder_missed,
     )
 except ImportError:
     from backend.reminder import add_reminder, get_reminders
     from backend.family import (
         add_family_reminder,
+        add_family_member,
+        add_user,
+        get_family_members,
         get_family_reminders,
+        get_users,
         mark_reminder_missed,
     )
 
@@ -48,6 +56,20 @@ class Contact(BaseModel):
 class FamilyReminder(BaseModel):
     medicine: str
     time: str
+    senior_id: int | None = None
+    created_by_user_id: int | None = None
+
+
+class UserRequest(BaseModel):
+    name: str
+    phone: str | None = None
+    role: str
+
+
+class FamilyMemberRequest(BaseModel):
+    senior_id: int
+    family_member_id: int
+    relation: str | None = None
 
 
 def run_database_action(action):
@@ -103,12 +125,46 @@ def view_contacts():
 @app.post("/emergency")
 def emergency():
     return send_emergency_alert()
+@app.post("/family/user")
+def create_family_user(user: UserRequest):
+    return run_database_action(
+        lambda: add_user(
+            user.name,
+            user.phone,
+            user.role,
+        )
+    )
+
+
+@app.get("/family/users")
+def view_family_users():
+    return run_database_action(get_users)
+
+
+@app.post("/family/member")
+def create_family_member(member: FamilyMemberRequest):
+    return run_database_action(
+        lambda: add_family_member(
+            member.senior_id,
+            member.family_member_id,
+            member.relation,
+        )
+    )
+
+
+@app.get("/family/members")
+def view_family_members():
+    return run_database_action(get_family_members)
+
+
 @app.post("/family/reminder")
 def create_family_reminder(reminder: FamilyReminder):
     return run_database_action(
         lambda: add_family_reminder(
             reminder.medicine,
             reminder.time,
+            reminder.senior_id,
+            reminder.created_by_user_id,
         )
     )
 
