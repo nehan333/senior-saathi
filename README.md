@@ -132,6 +132,7 @@ Future versions will support:
 
 * FastAPI
 * Python
+* MySQL
 
 ### AI / Processing
 
