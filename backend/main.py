@@ -1,14 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from backend.gov import get_schemes
+#from backend.translation import translate_text
 from backend.reminder import add_reminder, get_reminders
 from fastapi.middleware.cors import CORSMiddleware
-#from ai.ocr.ocr import extract_text
-from backend.emergency import (
-    add_contact,
-    get_contacts,
-    send_emergency_alert
-)
+from ai.ocr.ocr import extract_text
+# from backend.emergency import (
+#    add_contact,
+#    get_contacts,
+#    send_emergency_alert
+#)
 
 
 try:
