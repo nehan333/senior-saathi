@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from backend.gov import get_schemes
 from backend.reminder import add_reminder, get_reminders
 from fastapi.middleware.cors import CORSMiddleware
-from ai.ocr.ocr import extract_text
-# from backend.emergency import (
+#from ai.ocr.ocr import extract_text
+from backend.emergency import (
     add_contact,
     get_contacts,
     send_emergency_alert
@@ -109,7 +109,7 @@ def view_reminders():
 def schemes():
     return get_schemes()
 
-@app.post("/ocr")
+'''app.post("/ocr")
 async def ocr(file: UploadFile = File(...)):
 
     file_path = f"uploads/{file.filename}"
@@ -119,7 +119,7 @@ async def ocr(file: UploadFile = File(...)):
 
     text = extract_text(file_path)
 
-    return {"text": text}
+    return {"text": text}'''
 
 @app.post("/contacts")
 def create_contact(contact: Contact):
