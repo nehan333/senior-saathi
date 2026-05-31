@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from backend.gov import get_schemes
 from backend.reminder import add_reminder, get_reminders
@@ -10,6 +10,29 @@ from backend.emergency import (
     send_emergency_alert
 )
 
+
+try:
+    from reminder import add_reminder, get_reminders
+    from family import (
+        add_family_reminder,
+        add_family_member,
+        add_user,
+        get_family_members,
+        get_family_reminders,
+        get_users,
+        mark_reminder_missed,
+    )
+except ImportError:
+    from backend.reminder import add_reminder, get_reminders
+    from backend.family import (
+        add_family_reminder,
+        add_family_member,
+        add_user,
+        get_family_members,
+        get_family_reminders,
+        get_users,
+        mark_reminder_missed,
+    )
 
 app = FastAPI()
 
@@ -28,6 +51,37 @@ class Reminder(BaseModel):
 class Contact(BaseModel):
     name: str
     phone: str
+
+
+class FamilyReminder(BaseModel):
+    medicine: str
+    time: str
+    senior_id: int | None = None
+    created_by_user_id: int | None = None
+
+
+class UserRequest(BaseModel):
+    name: str
+    phone: str | None = None
+    role: str
+
+
+class FamilyMemberRequest(BaseModel):
+    senior_id: int
+    family_member_id: int
+    relation: str | None = None
+
+
+def run_database_action(action):
+    try:
+        return action()
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Database error: {exc}",
+        ) from exc
 
 
 @app.get("/")
@@ -49,9 +103,6 @@ def create_reminder(reminder: Reminder):
 def view_reminders():
     return get_reminders()
 
-@app.get("/schemes")
-def schemes():
-    return get_schemes()
 
 @app.get("/ocr")
 def ocr():
@@ -74,3 +125,57 @@ def view_contacts():
 @app.post("/emergency")
 def emergency():
     return send_emergency_alert()
+@app.post("/family/user")
+def create_family_user(user: UserRequest):
+    return run_database_action(
+        lambda: add_user(
+            user.name,
+            user.phone,
+            user.role,
+        )
+    )
+
+
+@app.get("/family/users")
+def view_family_users():
+    return run_database_action(get_users)
+
+
+@app.post("/family/member")
+def create_family_member(member: FamilyMemberRequest):
+    return run_database_action(
+        lambda: add_family_member(
+            member.senior_id,
+            member.family_member_id,
+            member.relation,
+        )
+    )
+
+
+@app.get("/family/members")
+def view_family_members():
+    return run_database_action(get_family_members)
+
+
+@app.post("/family/reminder")
+def create_family_reminder(reminder: FamilyReminder):
+    return run_database_action(
+        lambda: add_family_reminder(
+            reminder.medicine,
+            reminder.time,
+            reminder.senior_id,
+            reminder.created_by_user_id,
+        )
+    )
+
+
+@app.get("/family/reminders")
+def view_family_reminders():
+    return run_database_action(get_family_reminders)
+
+
+@app.put("/family/missed/{reminder_id}")
+def mark_family_reminder_missed(reminder_id: int):
+    return run_database_action(
+        lambda: mark_reminder_missed(reminder_id)
+    )
