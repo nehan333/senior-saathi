@@ -1,4 +1,4 @@
-# Senior-Saathi — AI Civic & Daily Life Assistant for Elderly Citizens
+# Senior-Saathi — AI Civic & Daily Life Assistant for Elderly/Senior Citizens
 
 ## Overview
 
