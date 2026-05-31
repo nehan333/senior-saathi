@@ -45,6 +45,7 @@ pyclipper==1.4.0
 pydantic==2.13.4
 pydantic-core==2.46.4
 python-bidi==0.6.10
+python-multipart==0.0.29
 pyyaml==6.0.3
 requests==2.34.2
 scikit-image==0.26.0
