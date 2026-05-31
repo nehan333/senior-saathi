@@ -4,7 +4,7 @@ from backend.gov import get_schemes
 from backend.reminder import add_reminder, get_reminders
 from fastapi.middleware.cors import CORSMiddleware
 from ai.ocr.ocr import extract_text
-
+from backend.translation import translate_text
 
 app = FastAPI()
 
@@ -48,3 +48,20 @@ def schemes():
 def ocr():
     text = extract_text("ai/ocr/sample.jpg")
     return {"text": text}
+
+from pydantic import BaseModel
+
+class TranslationRequest(BaseModel):
+    text: str
+    language: str
+
+@app.post("/translate")
+def translate(req: TranslationRequest):
+    translated = translate_text(
+        req.text,
+        req.language
+    )
+
+    return {
+        "translated": translated
+    }
