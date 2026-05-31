@@ -11,15 +11,56 @@ async function getSchemes() {
     }
 }
 
-async function readDoc() {
-    try {
-        const response = await fetch("http://127.0.0.1:8000/ocr");
-        const data = await response.json();
+document
+.getElementById("fileInput")
+.addEventListener(
+    "change",
+    uploadImage
+);
 
-        document.getElementById("output").innerText =
+async function uploadImage(){
+
+    const file =
+        document
+        .getElementById("fileInput")
+        .files[0];
+
+    if(!file) return;
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "file",
+        file
+    );
+
+    try{
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/ocr",
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document
+        .getElementById("output")
+        .innerText =
             data.text;
-    } catch (error) {
-        document.getElementById("output").innerText =
+
+    }
+
+    catch(error){
+
+        document
+        .getElementById("output")
+        .innerText =
             "OCR extraction failed.";
     }
 }

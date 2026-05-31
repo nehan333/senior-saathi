@@ -18,9 +18,11 @@
 
     <section class="controls">
 
-        <button onclick="readDoc()">
-            📄 Upload Document
-        </button>
+        <button onclick="document.getElementById('fileInput').click()">
+	📄 Upload Document
+	</button>
+            
+        
 
         <button onclick="getSchemes()">
             🏛 Government Schemes
@@ -62,6 +64,16 @@
 </div>
 
 <script src="script.js"></script>
+
+<script src="script.js"></script>
+
+<input
+    type="file"
+    id="fileInput"
+    accept="image/*"
+    style="display:none">
+
+</body>
 
 </body>
 </html>

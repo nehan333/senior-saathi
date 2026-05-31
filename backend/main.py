@@ -4,7 +4,7 @@ from backend.gov import get_schemes
 from backend.reminder import add_reminder, get_reminders
 from fastapi.middleware.cors import CORSMiddleware
 from ai.ocr.ocr import extract_text
-from backend.emergency import (
+# from backend.emergency import (
     add_contact,
     get_contacts,
     send_emergency_alert
@@ -33,6 +33,8 @@ except ImportError:
         get_users,
         mark_reminder_missed,
     )
+from fastapi import UploadFile, File
+import shutil
 
 app = FastAPI()
 
@@ -103,10 +105,20 @@ def create_reminder(reminder: Reminder):
 def view_reminders():
     return get_reminders()
 
+@app.get("/schemes")
+def schemes():
+    return get_schemes()
 
-@app.get("/ocr")
-def ocr():
-    text = extract_text("ai/ocr/sample.jpg")
+@app.post("/ocr")
+async def ocr(file: UploadFile = File(...)):
+
+    file_path = f"uploads/{file.filename}"
+
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    text = extract_text(file_path)
+
     return {"text": text}
 
 @app.post("/contacts")
@@ -179,3 +191,22 @@ def mark_family_reminder_missed(reminder_id: int):
     return run_database_action(
         lambda: mark_reminder_missed(reminder_id)
     )
+    
+    
+
+from pydantic import BaseModel
+
+class TranslationRequest(BaseModel):
+    text: str
+    language: str
+
+@app.post("/translate")
+def translate(req: TranslationRequest):
+    translated = translate_text(
+        req.text,
+        req.language
+    )
+
+    return {
+        "translated": translated
+    }
