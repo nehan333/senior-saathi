@@ -1,7 +1,7 @@
 <<<<<<< Updated upstream
 # Senior-Saathi — AI Civic & Daily Life Assistant for Elderly/Senior Citizens
 
-## Overview
+## Overview:-
 
 **Senior-Saathi** is an AI-powered multilingual assistant designed for **elderly, illiterate, and digitally excluded citizens**.
 
