@@ -1,18 +1,19 @@
-from fastapi import FastAPI, HTTPException
+import os
+import shutil
+
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from ai.ocr.ocr import extract_text
+from backend.emergency import (
+    add_contact,
+    get_contacts,
+    send_emergency_alert,
+)
 from backend.gov import get_schemes
-
-#from backend.translation import translate_text
 from backend.reminder import add_reminder, get_reminders
-
-# from backend.emergency import (
-#    add_contact,
-#    get_contacts,
-#    send_emergency_alert
-#)
-
+from backend.translation import translate_text
 
 try:
     from family import (
@@ -47,9 +48,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class Reminder(BaseModel):
     medicine: str
     time: str
+
 
 class Contact(BaseModel):
     name: str
@@ -89,29 +92,27 @@ def run_database_action(action):
 
 @app.get("/")
 def home():
-    return {
-        "message": "SeniorSaathi API Running"
-    }
+    return {"message": "SeniorSaathi API Running"}
 
 
 @app.post("/reminder")
 def create_reminder(reminder: Reminder):
-    return add_reminder(
-        reminder.medicine,
-        reminder.time
-    )
+    return add_reminder(reminder.medicine, reminder.time)
 
 
 @app.get("/reminders")
 def view_reminders():
     return get_reminders()
 
+
 @app.get("/schemes")
 def schemes():
     return get_schemes()
 
-'''app.post("/ocr")
+
+@app.post("/ocr")
 async def ocr(file: UploadFile = File(...)):
+    os.makedirs("uploads", exist_ok=True)
 
     file_path = f"uploads/{file.filename}"
 
@@ -120,14 +121,12 @@ async def ocr(file: UploadFile = File(...)):
 
     text = extract_text(file_path)
 
-    return {"text": text}'''
+    return {"text": text}
+
 
 @app.post("/contacts")
 def create_contact(contact: Contact):
-    return add_contact(
-        contact.name,
-        contact.phone
-    )
+    return add_contact(contact.name, contact.phone)
 
 
 @app.get("/contacts")
@@ -138,6 +137,8 @@ def view_contacts():
 @app.post("/emergency")
 def emergency():
     return send_emergency_alert()
+
+
 @app.post("/family/user")
 def create_family_user(user: UserRequest):
     return run_database_action(
@@ -189,26 +190,16 @@ def view_family_reminders():
 
 @app.put("/family/missed/{reminder_id}")
 def mark_family_reminder_missed(reminder_id: int):
-    return run_database_action(
-        lambda: mark_reminder_missed(reminder_id)
-    )
-    
-    
-
-from pydantic import BaseModel
+    return run_database_action(lambda: mark_reminder_missed(reminder_id))
 
 
 class TranslationRequest(BaseModel):
     text: str
     language: str
 
+
 @app.post("/translate")
 def translate(req: TranslationRequest):
-    translated = translate_text(
-        req.text,
-        req.language
-    )
+    translated = translate_text(req.text, req.language)
 
-    return {
-        "translated": translated
-    }
+    return {"translated": translated}

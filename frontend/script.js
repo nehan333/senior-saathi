@@ -1,32 +1,58 @@
 <<<<<<< Updated upstream
 async function getSchemes() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/schemes");
-        const data = await response.json();
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/schemes"
+            );
+
+        const data =
+            await response.json();
 
         document.getElementById("output").innerText =
             JSON.stringify(data, null, 2);
+
     } catch (error) {
+
+        console.error(error);
+
         document.getElementById("output").innerText =
             "Failed to fetch government schemes.";
     }
 }
 
-document
-.getElementById("fileInput")
-.addEventListener(
-    "change",
-    uploadImage
-);
 
-async function uploadImage(){
+window.addEventListener("DOMContentLoaded", () => {
+
+    const fileInput =
+        document.getElementById("fileInput");
+
+    if (fileInput) {
+
+        fileInput.addEventListener(
+            "change",
+            uploadImage
+        );
+
+        console.log("File input connected");
+    }
+
+});
+
+
+async function uploadImage() {
 
     const file =
         document
         .getElementById("fileInput")
         .files[0];
 
-    if(!file) return;
+    if (!file) {
+        console.log("No file selected");
+        return;
+    }
+
+    console.log("Uploading:", file.name);
 
     const formData =
         new FormData();
@@ -36,63 +62,95 @@ async function uploadImage(){
         file
     );
 
-    try{
+    try {
 
         const response =
             await fetch(
                 "http://127.0.0.1:8000/ocr",
                 {
-                    method:"POST",
-                    body:formData
+                    method: "POST",
+                    body: formData
                 }
             );
+
+        console.log(
+            "Response status:",
+            response.status
+        );
 
         const data =
             await response.json();
 
+        console.log(
+            "OCR Response:",
+            data
+        );
+
         document
-        .getElementById("output")
-        .innerText =
+            .getElementById("output")
+            .innerText =
             data.text;
 
-    }
+    } catch (error) {
 
-    catch(error){
+        console.error(
+            "OCR Error:",
+            error
+        );
 
         document
-        .getElementById("output")
-        .innerText =
+            .getElementById("output")
+            .innerText =
             "OCR extraction failed.";
     }
 }
 
+
 function translateText() {
-    document.getElementById("output").innerText =
+
+    document
+        .getElementById("output")
+        .innerText =
         "Translation Module Ready (Integration Coming Soon)";
 }
 
+
 function speakOutput() {
+
     const text =
-        document.getElementById("output").innerText;
+        document
+        .getElementById("output")
+        .innerText;
 
     const speech =
-        new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(
+            text
+        );
 
     const lang =
-        document.getElementById("language").value;
+        document
+        .getElementById("language")
+        .value;
 
     speech.lang = lang;
 
-    speechSynthesis.speak(speech);
+    speechSynthesis.speak(
+        speech
+    );
 }
+
 
 async function addContact() {
 
     const name =
-        document.getElementById("contactName").value;
+        document
+        .getElementById("contactName")
+        .value;
 
     const phone =
-        document.getElementById("contactPhone").value;
+        document
+        .getElementById("contactPhone")
+        .value;
 
     try {
 
@@ -102,7 +160,8 @@ async function addContact() {
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type":
+                            "application/json"
                     },
                     body: JSON.stringify({
                         name: name,
@@ -114,14 +173,23 @@ async function addContact() {
         const data =
             await response.json();
 
-        document.getElementById("output").innerText =
-            JSON.stringify(data, null, 2);
+        document
+            .getElementById("output")
+            .innerText =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
 
     } catch (error) {
 
-        document.getElementById("output").innerText =
-            "Failed to add contact.";
+        console.error(error);
 
+        document
+            .getElementById("output")
+            .innerText =
+            "Failed to add contact.";
     }
 }
 
@@ -138,14 +206,23 @@ async function viewContacts() {
         const data =
             await response.json();
 
-        document.getElementById("output").innerText =
-            JSON.stringify(data, null, 2);
+        document
+            .getElementById("output")
+            .innerText =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
 
     } catch (error) {
 
-        document.getElementById("output").innerText =
-            "Failed to fetch contacts.";
+        console.error(error);
 
+        document
+            .getElementById("output")
+            .innerText =
+            "Failed to fetch contacts.";
     }
 }
 
@@ -165,16 +242,26 @@ async function sendEmergency() {
         const data =
             await response.json();
 
-        document.getElementById("output").innerText =
-            JSON.stringify(data, null, 2);
+        document
+            .getElementById("output")
+            .innerText =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
 
     } catch (error) {
 
-        document.getElementById("output").innerText =
-            "Emergency alert failed.";
+        console.error(error);
 
+        document
+            .getElementById("output")
+            .innerText =
+            "Emergency alert failed.";
     }
 }
+<<<<<<< Updated upstream
 =======
 async function getSchemes() {
     try {
@@ -221,4 +308,6 @@ function speakOutput() {
 
     speechSynthesis.speak(speech);
 }
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
