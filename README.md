@@ -33,7 +33,7 @@ SeniorSaathi addresses these challenges through a simple and accessible interfac
 
 ---
 
-## Features
+## Features:-
 
 ### Document Reader (OCR)
 
@@ -61,7 +61,7 @@ Current support:-
 * English
 * Telugu
 
-Planned expansion:
+Planned expansion:-
 
 * Hindi
 * Tamil
@@ -72,7 +72,7 @@ Planned expansion:
 
 ---
 
-### Voice Output
+### Voice Output:-
 
 Generate spoken responses using Text-to-Speech.
 
@@ -84,11 +84,11 @@ The system can read translated text aloud to improve accessibility for:
 
 ---
 
-### Government Scheme Assistant
+### Government Scheme Assistant:-
 
 Access information about welfare schemes.
 
-Current version includes:
+Current version includes:-
 
 * Old Age Pension
 * Ayushman Bharat
