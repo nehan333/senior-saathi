@@ -3,6 +3,7 @@ import shutil
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from ai.ocr.ocr import extract_text
@@ -14,6 +15,7 @@ from backend.emergency import (
 from backend.gov import get_schemes
 from backend.reminder import add_reminder, get_reminders
 from backend.translation import translate_text
+from backend.voice import generate_voice
 
 try:
     from family import (
@@ -40,6 +42,10 @@ except ImportError:
 
 app = FastAPI()
 
+os.makedirs("audio", exist_ok=True)
+
+app.mount("/audio", StaticFiles(directory="audio"), name="audio")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -64,6 +70,11 @@ class FamilyReminder(BaseModel):
     time: str
     senior_id: int | None = None
     created_by_user_id: int | None = None
+
+
+class VoiceRequest(BaseModel):
+    text: str
+    language: str
 
 
 class UserRequest(BaseModel):
@@ -203,3 +214,10 @@ def translate(req: TranslationRequest):
     translated = translate_text(req.text, req.language)
 
     return {"translated": translated}
+
+
+@app.post("/voice")
+def voice(req: VoiceRequest):
+    filename = generate_voice(req.text, req.language)
+
+    return {"audio": filename}

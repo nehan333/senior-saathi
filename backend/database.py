@@ -6,7 +6,8 @@ def get_connection():
         import mysql.connector
     except ImportError as exc:
         raise RuntimeError(
-            "mysql-connector-python is not installed. Run: pip install mysql-connector-python"
+            "mysql-connector-python is not installed. "
+            "Run: pip install mysql-connector-python"
         ) from exc
 
     return mysql.connector.connect(
