@@ -1,17 +1,12 @@
 contacts = []
 
+
 def add_contact(name, phone):
-    contact = {
-        "name": name,
-        "phone": phone
-    }
+    contact = {"name": name, "phone": phone}
 
     contacts.append(contact)
 
-    return {
-        "message": "Contact added successfully",
-        "contact": contact
-    }
+    return {"message": "Contact added successfully", "contact": contact}
 
 
 def get_contacts():
@@ -19,7 +14,4 @@ def get_contacts():
 
 
 def send_emergency_alert():
-    return {
-        "message": "Emergency alert sent",
-        "contacts": contacts
-    }
+    return {"message": "Emergency alert sent", "contacts": contacts}

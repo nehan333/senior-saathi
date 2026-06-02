@@ -147,7 +147,9 @@ def get_family_members():
     return members
 
 
-def add_family_reminder(medicine, reminder_time, senior_id=None, created_by_user_id=None):
+def add_family_reminder(
+    medicine, reminder_time, senior_id=None, created_by_user_id=None
+):
     init_db()
     conn = get_connection()
     cursor = conn.cursor()

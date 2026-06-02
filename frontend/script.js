@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 async function getSchemes() {
     try {
         const response =
@@ -48,11 +47,8 @@ async function uploadImage() {
         .files[0];
 
     if (!file) {
-        console.log("No file selected");
         return;
     }
-
-    console.log("Uploading:", file.name);
 
     const formData =
         new FormData();
@@ -73,18 +69,8 @@ async function uploadImage() {
                 }
             );
 
-        console.log(
-            "Response status:",
-            response.status
-        );
-
         const data =
             await response.json();
-
-        console.log(
-            "OCR Response:",
-            data
-        );
 
         document
             .getElementById("output")
@@ -93,10 +79,7 @@ async function uploadImage() {
 
     } catch (error) {
 
-        console.error(
-            "OCR Error:",
-            error
-        );
+        console.error(error);
 
         document
             .getElementById("output")
@@ -106,39 +89,102 @@ async function uploadImage() {
 }
 
 
-function translateText() {
-
-    document
-        .getElementById("output")
-        .innerText =
-        "Translation Module Ready (Integration Coming Soon)";
-}
-
-
-function speakOutput() {
+async function translateText() {
 
     const text =
         document
         .getElementById("output")
         .innerText;
 
-    const speech =
-        new SpeechSynthesisUtterance(
-            text
-        );
-
-    const lang =
+    const language =
         document
         .getElementById("language")
         .value;
 
-    speech.lang = lang;
+    try {
 
-    speechSynthesis.speak(
-        speech
-    );
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/translate",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        language: language
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        document
+            .getElementById("output")
+            .innerText =
+            data.translated;
+
+    } catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById("output")
+            .innerText =
+            "Translation failed.";
+    }
 }
 
+
+async function speakOutput() {
+
+    const text =
+        document.getElementById("output").innerText;
+
+    const language =
+        document.getElementById("language").value;
+
+    try {
+
+        const response =
+            await fetch(
+                "http://127.0.0.1:8000/voice",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        language: language
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        const audio =
+            new Audio(
+                `http://127.0.0.1:8000/audio/${data.audio}`
+            );
+
+        audio.play();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        document.getElementById("output").innerText =
+            "Voice generation failed.";
+    }
+}
 
 async function addContact() {
 
@@ -261,53 +307,3 @@ async function sendEmergency() {
             "Emergency alert failed.";
     }
 }
-<<<<<<< Updated upstream
-=======
-async function getSchemes() {
-    try {
-        const response = await fetch("http://127.0.0.1:8000/schemes");
-        const data = await response.json();
-
-        document.getElementById("output").innerText =
-            JSON.stringify(data, null, 2);
-    } catch (error) {
-        document.getElementById("output").innerText =
-            "Failed to fetch government schemes.";
-    }
-}
-
-async function readDoc() {
-    try {
-        const response = await fetch("http://127.0.0.1:8000/ocr");
-        const data = await response.json();
-
-        document.getElementById("output").innerText =
-            data.text;
-    } catch (error) {
-        document.getElementById("output").innerText =
-            "OCR extraction failed.";
-    }
-}
-
-function translateText() {
-    document.getElementById("output").innerText =
-        "Translation Module Ready (Integration Coming Soon)";
-}
-
-function speakOutput() {
-    const text =
-        document.getElementById("output").innerText;
-
-    const speech =
-        new SpeechSynthesisUtterance(text);
-
-    const lang =
-        document.getElementById("language").value;
-
-    speech.lang = lang;
-
-    speechSynthesis.speak(speech);
-}
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
