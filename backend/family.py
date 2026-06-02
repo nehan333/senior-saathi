@@ -1,9 +1,9 @@
 try:
-    from database import get_connection, init_db
     from alerts import send_missed_reminder_alert
+    from database import get_connection, init_db
 except ImportError:
-    from backend.database import get_connection, init_db
     from backend.alerts import send_missed_reminder_alert
+    from backend.database import get_connection, init_db
 
 
 def _row_to_reminder(row):

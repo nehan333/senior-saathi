@@ -1,5 +1,6 @@
 import json
 
+
 def get_schemes():
 
     with open("backend/schemes.json") as f:

@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
 from backend.gov import get_schemes
+
 #from backend.translation import translate_text
 from backend.reminder import add_reminder, get_reminders
-from fastapi.middleware.cors import CORSMiddleware
-from ai.ocr.ocr import extract_text
+
 # from backend.emergency import (
 #    add_contact,
 #    get_contacts,
@@ -13,29 +15,27 @@ from ai.ocr.ocr import extract_text
 
 
 try:
-    from reminder import add_reminder, get_reminders
     from family import (
-        add_family_reminder,
         add_family_member,
+        add_family_reminder,
         add_user,
         get_family_members,
         get_family_reminders,
         get_users,
         mark_reminder_missed,
     )
+    from reminder import add_reminder, get_reminders
 except ImportError:
-    from backend.reminder import add_reminder, get_reminders
     from backend.family import (
-        add_family_reminder,
         add_family_member,
+        add_family_reminder,
         add_user,
         get_family_members,
         get_family_reminders,
         get_users,
         mark_reminder_missed,
     )
-from fastapi import UploadFile, File
-import shutil
+    from backend.reminder import add_reminder, get_reminders
 
 app = FastAPI()
 
@@ -196,6 +196,7 @@ def mark_family_reminder_missed(reminder_id: int):
     
 
 from pydantic import BaseModel
+
 
 class TranslationRequest(BaseModel):
     text: str
