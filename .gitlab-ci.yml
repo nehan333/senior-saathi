@@ -1,13 +1,16 @@
 stages:
   - lint
+  - audit
 
 lint:
+  stage: lint
   image: python:3.12
   script:
     - pip install ruff
     - ruff check .
 
 audit:
+  stage: audit
   image: python:3.12
   script:
     - pip install pip-audit
