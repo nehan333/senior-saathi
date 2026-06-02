@@ -1,11 +1,12 @@
-<<<<<<< Updated upstream
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
 from backend.gov import get_schemes
+
 #from backend.translation import translate_text
 from backend.reminder import add_reminder, get_reminders
-from fastapi.middleware.cors import CORSMiddleware
-from ai.ocr.ocr import extract_text
+
 # from backend.emergency import (
 #    add_contact,
 #    get_contacts,
@@ -14,29 +15,27 @@ from ai.ocr.ocr import extract_text
 
 
 try:
-    from reminder import add_reminder, get_reminders
     from family import (
-        add_family_reminder,
         add_family_member,
+        add_family_reminder,
         add_user,
         get_family_members,
         get_family_reminders,
         get_users,
         mark_reminder_missed,
     )
+    from reminder import add_reminder, get_reminders
 except ImportError:
-    from backend.reminder import add_reminder, get_reminders
     from backend.family import (
-        add_family_reminder,
         add_family_member,
+        add_family_reminder,
         add_user,
         get_family_members,
         get_family_reminders,
         get_users,
         mark_reminder_missed,
     )
-from fastapi import UploadFile, File
-import shutil
+    from backend.reminder import add_reminder, get_reminders
 
 app = FastAPI()
 
@@ -198,6 +197,7 @@ def mark_family_reminder_missed(reminder_id: int):
 
 from pydantic import BaseModel
 
+
 class TranslationRequest(BaseModel):
     text: str
     language: str
@@ -212,55 +212,3 @@ def translate(req: TranslationRequest):
     return {
         "translated": translated
     }
-=======
-from fastapi import FastAPI
-from pydantic import BaseModel
-from backend.gov import get_schemes
-from backend.reminder import add_reminder, get_reminders
-from fastapi.middleware.cors import CORSMiddleware
-from ai.ocr.ocr import extract_text
-
-
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class Reminder(BaseModel):
-    medicine: str
-    time: str
-
-
-@app.get("/")
-def home():
-    return {
-        "message": "SeniorSaathi API Running"
-    }
-
-
-@app.post("/reminder")
-def create_reminder(reminder: Reminder):
-    return add_reminder(
-        reminder.medicine,
-        reminder.time
-    )
-
-
-@app.get("/reminders")
-def view_reminders():
-    return get_reminders()
-
-@app.get("/schemes")
-def schemes():
-    return get_schemes()
-
-@app.get("/ocr")
-def ocr():
-    text = extract_text("ai/ocr/sample.jpg")
-    return {"text": text}
->>>>>>> Stashed changes
