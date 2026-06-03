@@ -1,12 +1,8 @@
 async function getSchemes() {
     try {
-        const response =
-            await fetch(
-                "http://127.0.0.1:8000/schemes"
-            );
+        const response = await fetch("/schemes");
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         document.getElementById("output").innerText =
             JSON.stringify(data, null, 2);
@@ -19,7 +15,6 @@ async function getSchemes() {
             "Failed to fetch government schemes.";
     }
 }
-
 
 window.addEventListener("DOMContentLoaded", () => {
 
@@ -38,7 +33,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
 async function uploadImage() {
 
     const file =
@@ -50,8 +44,7 @@ async function uploadImage() {
         return;
     }
 
-    const formData =
-        new FormData();
+    const formData = new FormData();
 
     formData.append(
         "file",
@@ -62,7 +55,7 @@ async function uploadImage() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/ocr",
+                "/ocr",
                 {
                     method: "POST",
                     body: formData
@@ -88,7 +81,6 @@ async function uploadImage() {
     }
 }
 
-
 async function translateText() {
 
     const text =
@@ -105,7 +97,7 @@ async function translateText() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/translate",
+                "/translate",
                 {
                     method: "POST",
                     headers: {
@@ -138,7 +130,6 @@ async function translateText() {
     }
 }
 
-
 async function speakOutput() {
 
     const text =
@@ -151,7 +142,7 @@ async function speakOutput() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/voice",
+                "/voice",
                 {
                     method: "POST",
                     headers: {
@@ -170,14 +161,12 @@ async function speakOutput() {
 
         const audio =
             new Audio(
-                `http://127.0.0.1:8000/audio/${data.audio}`
+                `/audio/${data.audio}`
             );
 
         audio.play();
 
-    }
-
-    catch(error) {
+    } catch (error) {
 
         console.error(error);
 
@@ -202,7 +191,7 @@ async function addContact() {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/contacts",
+                "/contacts",
                 {
                     method: "POST",
                     headers: {
@@ -239,15 +228,12 @@ async function addContact() {
     }
 }
 
-
 async function viewContacts() {
 
     try {
 
         const response =
-            await fetch(
-                "http://127.0.0.1:8000/contacts"
-            );
+            await fetch("/contacts");
 
         const data =
             await response.json();
@@ -272,14 +258,13 @@ async function viewContacts() {
     }
 }
 
-
 async function sendEmergency() {
 
     try {
 
         const response =
             await fetch(
-                "http://127.0.0.1:8000/emergency",
+                "/emergency",
                 {
                     method: "POST"
                 }
