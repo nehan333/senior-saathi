@@ -3,6 +3,7 @@ import shutil
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -45,7 +46,7 @@ app = FastAPI()
 os.makedirs("audio", exist_ok=True)
 
 app.mount("/audio", StaticFiles(directory="audio"), name="audio")
-
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -102,8 +103,8 @@ def run_database_action(action):
 
 
 @app.get("/")
-def home():
-    return {"message": "SeniorSaathi API Running"}
+def serve_frontend():
+    return FileResponse("frontend/index.html")
 
 
 @app.post("/reminder")
